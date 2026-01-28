@@ -7,7 +7,6 @@ metadata:
     tier: frontend
 spec:
   replicas: {{ .Values.deployment.replicas }}
-  terminationGracePeriodSeconds: 30
   progressDeadlineSeconds: 300
   strategy:
     type: RollingUpdate
@@ -26,10 +25,11 @@ spec:
         tier: frontend
     spec:
       # ──────────────── App Container ────────────────
+      terminationGracePeriodSeconds: 30
       containers:
         - name: nginx-frontend-cont
           image: "{{ .Values.image.imageName }}:{{ .Values.image.imageVersion }}"
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent   # Always
           ports:
             - name: frontend
               containerPort: 80
