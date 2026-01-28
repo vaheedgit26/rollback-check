@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: frontend
+  namespace: argocd  # ArgoCD's namespace
+  # dependency, lowest priorty will be created first
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/vaheedgit26/rollback-check.git
+    targetRevision: main   # or a tag/commit hash
+    path: helm/       # folder in repo with Kubernetes YAMLs
+    helm:
+      releaseName: frontend
+      valueFiles:
+      - values-dockerHub.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true           # delete resources not in Git
+      selfHeal: true        # revert out-of-band changes
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
+      - PruneLast=true
