@@ -3,7 +3,7 @@ component: frontend
 
 image:
   imageName: nginx
-  imageVersion: greatest #latest  # greatest
+  imageVersion: latest  # greatest
   
 deployment:
   replicas: 1
