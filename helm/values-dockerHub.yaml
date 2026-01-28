@@ -1,0 +1,12 @@
+project: expense
+component: frontend
+
+image:
+  imageName: nginx
+  imageVersion: greatest #latest  # greatest
+  
+deployment:
+  replicas: 1
+  
+hpa:
+  utilisation: 5
